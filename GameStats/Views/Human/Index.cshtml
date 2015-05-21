@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GameStats.DataAccess.HUMAN>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of all players</h2>
+
+<p>
+    @Html.ActionLink("Add new player to the database", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FIRST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SECOND_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LAST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PHONE_NUMBER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATE_OF_BIRTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PICTURE)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FIRST_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SECOND_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LAST_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMAIL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PHONE_NUMBER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DATE_OF_BIRTH)
+            </td>
+            <td>
+                <img src='@Url.Action("GetImage", "Image", new { id = item.ID })' width="150px" height="100px" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

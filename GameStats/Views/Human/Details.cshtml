@@ -1,0 +1,74 @@
+﻿@model GameStats.DataAccess.HUMAN
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HUMAN</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FIRST_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIRST_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SECOND_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SECOND_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LAST_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LAST_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHONE_NUMBER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHONE_NUMBER)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DATE_OF_BIRTH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DATE_OF_BIRTH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PICTURE)
+        </dt>
+
+        <dd>
+            <img src='@Url.Action("GetImage", "Image", new { id = Model.ID })' width="150px" height="100px" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

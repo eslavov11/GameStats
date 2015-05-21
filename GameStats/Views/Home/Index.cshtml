@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>GameStats</h1>
+    <p class="lead">GameStats is a web application that allows you to keep track on TechnoLogica's sports activities, create events, store the
+     results and list the best players!</p>
+  <!--  <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p> -->
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Add new games", "Create", "Game")</h2>
+        <p>
+            GameStats allows you to add new games that you and your colleagues play! You can choose the category, describe the game rules
+            and other specific things around the game!
+        </p>
+       <!-- <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>-->
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Add new categories", "Create", "Category")</h2>
+        <p>You can easily add new game categories, in just a few clicks!</p>
+        <!--<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>-->
+    </div>
+    <div class="col-md-4">
+        <h2>@Html.ActionLink("Add new players", "Create", "Human")</h2>
+        <p>Add new players to the database from here!</p>
+        <!--<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>-->
+    </div>
+</div>

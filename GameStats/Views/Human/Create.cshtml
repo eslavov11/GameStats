@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+@model GameStats.Models.HumanViewModel
+
+<h2>Create player</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FIRST_NAME, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FIRST_NAME)
+                @Html.ValidationMessageFor(model => model.FIRST_NAME)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SECOND_NAME, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SECOND_NAME)
+                @Html.ValidationMessageFor(model => model.SECOND_NAME)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LAST_NAME, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LAST_NAME)
+                @Html.ValidationMessageFor(model => model.LAST_NAME)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EMAIL, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EMAIL)
+                @Html.ValidationMessageFor(model => model.EMAIL)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PHONE_NUMBER, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PHONE_NUMBER)
+                @Html.ValidationMessageFor(model => model.PHONE_NUMBER)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DATE_OF_BIRTH, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="date" @Html.EditorFor(model => model.DATE_OF_BIRTH)
+                       @Html.ValidationMessageFor(model => model.DATE_OF_BIRTH)
+            </div>
+        </div>
+
+        <div class="form-group">
+           @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div>
+                    @Html.TextBoxFor(x => x.File, new { type = "file" })
+                    @Html.ValidationMessageFor(x => x.File)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
