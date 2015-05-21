@@ -1,4 +1,4 @@
-﻿@model GameStats.Models.HumanViewModel
+﻿@model GameStats.DataAccess.HUMAN
 
 @{
     ViewBag.Title = "Edit";
@@ -65,12 +65,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.File, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PICTURE, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div>
                     <img src='@Url.Action("GetImage", "Image", new { id = Model.ID })' width="150px" height="100px" />
-                    @Html.TextBoxFor(x => x.File, new { type = "file" })
-                    @Html.ValidationMessageFor(x => x.File)
                 </div>
             </div>
         </div>

@@ -54,7 +54,6 @@ namespace GameStats.Controllers
             byte[] uploadedFile = new byte[model.File.InputStream.Length];
             model.File.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
 
-            //human.DATE_OF_BIRTH = DateTime.Now;
             human.PICTURE = uploadedFile;
 
             if (ModelState.IsValid)
