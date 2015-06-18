@@ -51,10 +51,13 @@ namespace GameStats.Controllers
                 return View(model);
             }
 
-            byte[] uploadedFile = new byte[model.File.InputStream.Length];
-            model.File.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+            if (model.File != null)
+            {
+                byte[] uploadedFile = new byte[model.File.InputStream.Length];
+                model.File.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
 
-            human.PICTURE = uploadedFile;
+                human.PICTURE = uploadedFile;
+            } 
 
             if (ModelState.IsValid)
             {
@@ -73,12 +76,21 @@ namespace GameStats.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var model = new HumanViewModel();
             HUMAN human = db.HUMANS.Find(id);
+            model.ID = human.ID;
+            model.FIRST_NAME = human.FIRST_NAME;
+            model.SECOND_NAME = human.SECOND_NAME;
+            model.LAST_NAME = human.LAST_NAME;
+            model.EMAIL = human.EMAIL;
+            model.DATE_OF_BIRTH = human.DATE_OF_BIRTH;
+            model.PHONE_NUMBER = human.PHONE_NUMBER;
+            model.PICTURE = human.PICTURE;
             if (human == null)
             {
                 return HttpNotFound();
             }
-            return View(human);
+            return View(model);
         }
 
         // POST: /Human/Edit/5
@@ -86,11 +98,30 @@ namespace GameStats.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,FIRST_NAME,SECOND_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,DATE_OF_BIRTH,PICTURE")] HUMAN human)
+        public ActionResult Edit(HumanViewModel model, [Bind(Include="ID,FIRST_NAME,SECOND_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,DATE_OF_BIRTH,PICTURE")] HUMAN human)
         {
+            
+            human.ID = model.ID;
+            human.FIRST_NAME = model.FIRST_NAME;
+            human.SECOND_NAME = model.SECOND_NAME;
+            human.LAST_NAME = model.LAST_NAME;
+            human.EMAIL = model.EMAIL;
+            human.PHONE_NUMBER = model.PHONE_NUMBER;
             if (ModelState.IsValid)
             {
-                db.Entry(human).State = EntityState.Modified;
+                if (model.File != null)
+                {
+                    byte[] uploadedFile = new byte[model.File.InputStream.Length];
+                    model.File.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+
+                    human.PICTURE = uploadedFile;
+                    db.Entry(human).State = EntityState.Modified;
+                }
+                else
+                {
+                    human.PICTURE = db.HUMANS.Find(model.ID).PICTURE;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

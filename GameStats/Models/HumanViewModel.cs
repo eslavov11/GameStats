@@ -16,14 +16,19 @@ namespace GameStats.Models
         [Display(Name = "Last name")]
         public string LAST_NAME { get; set; }
         [Display(Name = "Email")]
+        [Required]
         public string EMAIL { get; set; }
         [Display(Name = "Phone number")]
         public string PHONE_NUMBER { get; set; }
         [Display(Name = "Date of birth")]
         public System.DateTime DATE_OF_BIRTH { get; set; }
         [Display(Name = "Picture")]
+        public byte[] PICTURE { get; set; }
+        [Display(Name = "Picture")]
 
-        [Required]
         public HttpPostedFileBase File { get; set; }
+
+        [Display(Name = "Change photo")]
+        public bool change { get; set; }
     }
 }
