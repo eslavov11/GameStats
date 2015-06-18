@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.DATE_OF_BIRTH)
             </td>
             <td>
-                <img src='@Url.Action("GetImage", "Image", new { id = item.ID })' width="150px" height="100px" />
+                <img src='@Url.Action("GetImage", "Image", new { id = item.ID })' height="150px"  />
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |

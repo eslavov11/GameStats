@@ -68,7 +68,7 @@
             @Html.LabelFor(model => model.PICTURE, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div>
-                    <img src='@Url.Action("GetImage", "Image", new { id = Model.ID })' width="150px" height="100px" />
+                    <img src='@Url.Action("GetImage", "Image", new { id = Model.ID })' height="150px" />
                 </div>
             </div>
         </div>
