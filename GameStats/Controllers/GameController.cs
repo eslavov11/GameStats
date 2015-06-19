@@ -141,11 +141,11 @@ namespace GameStats.Controllers
                     categoriesCount++;
                 }
                 bool isChecked = false;
-                for (int i = 0; i < categoriesCount; i++)
+                foreach (var item in (from a in db.CATEGORIES select a.ID))
                 {
                     for (int j = 0; j < catID.Length; j++)
                     {
-                        if ((from a in db.CATEGORIES where a.ID == i + 1 select a.ID).FirstOrDefault() == catID[j])
+                        if ((from a in db.CATEGORIES where a.ID == item select a.ID).FirstOrDefault() == catID[j])
                         {
                             check.Add("checked");
                             isChecked = true;
