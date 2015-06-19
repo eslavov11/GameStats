@@ -18,27 +18,59 @@ namespace GameStats.Controllers
         // GET: /Game/
         public ActionResult Index()
         {
-            List<string> list = new List<string>();
+            List<string> games = new List<string>();
             foreach (var item in db.GAMES)
             {
-                list.Add((from a in db.CATEGORIES where a.ID == item.CATEGORY_ID select a.NAME).FirstOrDefault());
+                if ((from a in db.GAMES where a.ID == item.ID select a.CATEGORY_ID).FirstOrDefault() != null)
+                {
+                    string tempCategories = (from a in db.GAMES where a.ID == item.ID select a.CATEGORY_ID).FirstOrDefault();
+                    string[] categories = tempCategories.Split(',');
+                    categories = categories.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                    int[] catID = new int[categories.Length];
+                    for (int i = 0; i < categories.Length; i++)
+                    {
+                        catID[i] = Convert.ToInt32(categories[i]);
+                    }
+                    string allCategories = null;
+                    foreach (var id in catID)
+                    {
+                        allCategories += (from a in db.CATEGORIES where a.ID == id select a.NAME).FirstOrDefault() + ", ";
+                    }
+                    allCategories = allCategories.Remove(allCategories.Length - 2);
+                    games.Add(allCategories);
+                }
+                else
+                {
+                    games.Add(" ");
+                }
             }
 
-            ViewBag.CATEGORY = list;
+            ViewBag.CATEGORY = games;
             return View(db.GAMES.ToList());
         }
 
         // GET: /Game/Details/5
         public ActionResult Details(int? id)
         {
-            List<string> list = new List<string>();
-            int i = 1;
-            foreach (var item in db.CATEGORIES)
+            string allCategories = null;
+            if ((from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault() != null)
             {
-                list.Add((from a in db.CATEGORIES where a.ID == i select a.NAME).FirstOrDefault());
-                i++;
+                string tempCategories = (from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault();
+                string[] categories = tempCategories.Split(',');
+                categories = categories.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                int[] catID = new int[categories.Length];
+                for (int i = 0; i < categories.Length; i++)
+                {
+                    catID[i] = Convert.ToInt32(categories[i]);
+                }
+
+                foreach (var categoryId in catID)
+                {
+                    allCategories += (from a in db.CATEGORIES where a.ID == categoryId select a.NAME).FirstOrDefault() + ", ";
+                }
+                allCategories = allCategories.Remove(allCategories.Length - 2);
             }
-            ViewBag.CATEGORY = list;
+            ViewBag.CATEGORY = allCategories;
 
             if (id == null)
             {
@@ -55,7 +87,7 @@ namespace GameStats.Controllers
         // GET: /Game/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.CATEGORY = new SelectList(db.CATEGORIES, "ID", "NAME");
+            ViewBag.CATEGORY = (from a in db.CATEGORIES select a);
             return View();
         }
 
@@ -64,11 +96,21 @@ namespace GameStats.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NAME,DESCRIPTION,CATEGORY, CATEGORY_ID")] GameCategoryViewModel model, [Bind(Include = "ID,NAME,DESCRIPTION,CATEGORY_ID")] GAME game)
+        public ActionResult Create(int[] category, [Bind(Include = "ID,NAME,DESCRIPTION,CATEGORY, CATEGORY_ID")] GameCategoryViewModel model, [Bind(Include = "ID,NAME,DESCRIPTION,CATEGORY_ID")] GAME game)
         {
             game.NAME = model.NAME;
             game.DESCRIPTION = model.DESCRIPTION;
-            game.CATEGORY_ID = model.CATEGORY_ID;
+            if (category != null)
+            {
+                for (int i = 0; i < category.Length; i++)
+                {
+                    game.CATEGORY_ID += category[i] + ",";
+                }
+            }
+            else
+            {
+                game.CATEGORY_ID = null;
+            }
 
             if (ModelState.IsValid)
             {
@@ -82,7 +124,51 @@ namespace GameStats.Controllers
         // GET: /Game/Edit/5
         public ActionResult Edit(int? id)
         {
-            ViewBag.CATEGORY = new SelectList(db.CATEGORIES, "ID", "NAME");
+            if ((from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault() != null)
+            {
+                string tempCategories = (from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault();
+                string[] categories = tempCategories.Split(',');
+                categories = categories.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                int[] catID = new int[categories.Length];
+                for (int i = 0; i < categories.Length; i++)
+                {
+                    catID[i] = Convert.ToInt32(categories[i]);
+                }
+                List<string> check = new List<string>();
+                int categoriesCount = 0;
+                foreach (var item in db.CATEGORIES)
+                {
+                    categoriesCount++;
+                }
+                bool isChecked = false;
+                for (int i = 0; i < categoriesCount; i++)
+                {
+                    for (int j = 0; j < catID.Length; j++)
+                    {
+                        if ((from a in db.CATEGORIES where a.ID == i + 1 select a.ID).FirstOrDefault() == catID[j])
+                        {
+                            check.Add("checked");
+                            isChecked = true;
+                        }
+                    }
+                    if (isChecked == false)
+                    {
+                        check.Add("");
+                    }
+                    isChecked = false;
+                }
+                ViewBag.isChecked = check;
+            }
+            else
+            {
+                int categoriesCount = 0;
+                foreach (var item in db.CATEGORIES)
+                {
+                    categoriesCount++;
+                }
+                ViewBag.isChecked = new string[categoriesCount];
+            }
+            ViewBag.CATEGORY = (from a in db.CATEGORIES select a);
 
             if (id == null)
             {
@@ -101,8 +187,21 @@ namespace GameStats.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,NAME,DESCRIPTION,CATEGORY_ID")] GAME game)
+
+        public ActionResult Edit(int[] category, [Bind(Include = "ID,NAME,DESCRIPTION,CATEGORY_ID")] GAME game)
         {
+            if (category != null)
+            {
+                for (int i = 0; i < category.Length; i++)
+                {
+                    game.CATEGORY_ID += category[i] + ",";
+                }
+            }
+            else
+            {
+                game.CATEGORY_ID = null;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(game).State = EntityState.Modified;
@@ -115,15 +214,25 @@ namespace GameStats.Controllers
         // GET: /Game/Delete/5
         public ActionResult Delete(int? id)
         {
-            List<string> list = new List<string>();
-            int i = 1;
-            foreach (var item in db.CATEGORIES)
+            string allCategories = null;
+            if ((from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault() != null)
             {
-                list.Add((from a in db.CATEGORIES where a.ID == i select a.NAME).FirstOrDefault());
-                i++;
-            }
+                string tempCategories = (from a in db.GAMES where a.ID == id select a.CATEGORY_ID).FirstOrDefault();
+                string[] categories = tempCategories.Split(',');
+                categories = categories.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                int[] catID = new int[categories.Length];
+                for (int i = 0; i < categories.Length; i++)
+                {
+                    catID[i] = Convert.ToInt32(categories[i]);
+                }
 
-            ViewBag.CATEGORY = list;
+                foreach (var categoryId in catID)
+                {
+                    allCategories += (from a in db.CATEGORIES where a.ID == categoryId select a.NAME).FirstOrDefault() + ", ";
+                }
+                allCategories = allCategories.Remove(allCategories.Length - 2);
+            }
+            ViewBag.CATEGORY = allCategories;
 
             if (id == null)
             {

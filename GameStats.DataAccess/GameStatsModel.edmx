@@ -4,84 +4,85 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GameStatsDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="CATEGORY">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GAME">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DESCRIPTION" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CATEGORY_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GAME_CATEGORY">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CATEGORY_ID" Type="int" Nullable="false" />
-          <Property Name="GAME_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HUMAN">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FIRST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="SECOND_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LAST_NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="EMAIL" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PHONE_NUMBER" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DATE_OF_BIRTH" Type="datetime" Nullable="false" />
-          <Property Name="PICTURE" Type="varbinary" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_CategoryGAME_CATEGORY">
-          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
-          <End Role="GAME_CATEGORY" Type="Self.GAME_CATEGORY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CATEGORY">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GAME_CATEGORY">
-              <PropertyRef Name="CATEGORY_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GameGAME_CATEGORY">
-          <End Role="GAME" Type="Self.GAME" Multiplicity="1" />
-          <End Role="GAME_CATEGORY" Type="Self.GAME_CATEGORY" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GAME">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GAME_CATEGORY">
-              <PropertyRef Name="GAME_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="GameStatsDbModelStoreContainer">
-          <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GAME" EntityType="Self.GAME" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GAME_CATEGORY" EntityType="Self.GAME_CATEGORY" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="HUMAN" EntityType="Self.HUMAN" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_CategoryGAME_CATEGORY" Association="Self.FK_CategoryGAME_CATEGORY">
-            <End Role="CATEGORY" EntitySet="CATEGORY" />
-            <End Role="GAME_CATEGORY" EntitySet="GAME_CATEGORY" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GameGAME_CATEGORY" Association="Self.FK_GameGAME_CATEGORY">
-            <End Role="GAME" EntitySet="GAME" />
-            <End Role="GAME_CATEGORY" EntitySet="GAME_CATEGORY" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="GameStatsDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="GameStatsDbModelStoreContainer">
+    <EntitySet Name="CATEGORY" EntityType="GameStatsDbModel.Store.CATEGORY" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GAME" EntityType="GameStatsDbModel.Store.GAME" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GAME_CATEGORY" EntityType="GameStatsDbModel.Store.GAME_CATEGORY" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HUMAN" EntityType="GameStatsDbModel.Store.HUMAN" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_CategoryGAME_CATEGORY" Association="GameStatsDbModel.Store.FK_CategoryGAME_CATEGORY">
+      <End Role="CATEGORY" EntitySet="CATEGORY" />
+      <End Role="GAME_CATEGORY" EntitySet="GAME_CATEGORY" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GameGAME_CATEGORY" Association="GameStatsDbModel.Store.FK_GameGAME_CATEGORY">
+      <End Role="GAME" EntitySet="GAME" />
+      <End Role="GAME_CATEGORY" EntitySet="GAME_CATEGORY" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CATEGORY">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GAME">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CATEGORY_ID" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GAME_CATEGORY">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CATEGORY_ID" Type="int" Nullable="false" />
+    <Property Name="GAME_ID" Type="int" Nullable="false" />
+    <Property Name="CATEGORY_ID1" Type="int" Nullable="true" />
+    <Property Name="GAME_ID1" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="HUMAN">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIRST_NAME" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="SECOND_NAME" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="LAST_NAME" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="EMAIL" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PHONE_NUMBER" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DATE_OF_BIRTH" Type="datetime" Nullable="false" />
+    <Property Name="PICTURE" Type="varbinary" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_CategoryGAME_CATEGORY">
+    <End Role="CATEGORY" Type="GameStatsDbModel.Store.CATEGORY" Multiplicity="1" />
+    <End Role="GAME_CATEGORY" Type="GameStatsDbModel.Store.GAME_CATEGORY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GAME_CATEGORY">
+        <PropertyRef Name="CATEGORY_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GameGAME_CATEGORY">
+    <End Role="GAME" Type="GameStatsDbModel.Store.GAME" Multiplicity="1" />
+    <End Role="GAME_CATEGORY" Type="GameStatsDbModel.Store.GAME_CATEGORY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GAME">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GAME_CATEGORY">
+        <PropertyRef Name="GAME_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GameStatsDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -100,7 +101,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CATEGORY_ID" Type="Int32" Nullable="false" />
+          <Property Name="CATEGORY_ID" Type="String" Nullable="false" />
           <NavigationProperty Name="GAME_CATEGORY" Relationship="Self.FK_GameGAME_CATEGORY" FromRole="GAME" ToRole="GAME_CATEGORY" />
         </EntityType>
         <EntityType Name="GAME_CATEGORY">
@@ -112,6 +113,8 @@
           <Property Name="GAME_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CATEGORY" Relationship="Self.FK_CategoryGAME_CATEGORY" FromRole="GAME_CATEGORY" ToRole="CATEGORY" />
           <NavigationProperty Name="GAME" Relationship="Self.FK_GameGAME_CATEGORY" FromRole="GAME_CATEGORY" ToRole="GAME" />
+          <Property Name="CATEGORY_ID1" Type="Int32" />
+          <Property Name="GAME_ID1" Type="Int32" />
         </EntityType>
         <EntityType Name="HUMAN">
           <Key>
@@ -168,52 +171,53 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GameStatsDbModelStoreContainer" CdmEntityContainer="GameStatsDbEntities">
-          <EntitySetMapping Name="CATEGORY">
-            <EntityTypeMapping TypeName="GameStatsDbModel.CATEGORY">
-              <MappingFragment StoreEntitySet="CATEGORY">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GAME">
-            <EntityTypeMapping TypeName="GameStatsDbModel.GAME">
-              <MappingFragment StoreEntitySet="GAME">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GAME_CATEGORY">
-            <EntityTypeMapping TypeName="GameStatsDbModel.GAME_CATEGORY">
-              <MappingFragment StoreEntitySet="GAME_CATEGORY">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
-                <ScalarProperty Name="GAME_ID" ColumnName="GAME_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HUMAN">
-            <EntityTypeMapping TypeName="GameStatsDbModel.HUMAN">
-              <MappingFragment StoreEntitySet="HUMAN">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
-                <ScalarProperty Name="SECOND_NAME" ColumnName="SECOND_NAME" />
-                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
-                <ScalarProperty Name="DATE_OF_BIRTH" ColumnName="DATE_OF_BIRTH" />
-                <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GameStatsDbModelStoreContainer" CdmEntityContainer="GameStatsDbEntities">
+    <EntitySetMapping Name="CATEGORY">
+      <EntityTypeMapping TypeName="IsTypeOf(GameStatsDbModel.CATEGORY)">
+        <MappingFragment StoreEntitySet="CATEGORY">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GAME">
+      <EntityTypeMapping TypeName="IsTypeOf(GameStatsDbModel.GAME)">
+        <MappingFragment StoreEntitySet="GAME">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NAME" ColumnName="NAME" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GAME_CATEGORY">
+      <EntityTypeMapping TypeName="IsTypeOf(GameStatsDbModel.GAME_CATEGORY)">
+        <MappingFragment StoreEntitySet="GAME_CATEGORY">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CATEGORY_ID" ColumnName="CATEGORY_ID" />
+          <ScalarProperty Name="GAME_ID" ColumnName="GAME_ID" />
+          <ScalarProperty Name="CATEGORY_ID1" ColumnName="CATEGORY_ID1" />
+          <ScalarProperty Name="GAME_ID1" ColumnName="GAME_ID1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HUMAN">
+      <EntityTypeMapping TypeName="IsTypeOf(GameStatsDbModel.HUMAN)">
+        <MappingFragment StoreEntitySet="HUMAN">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+          <ScalarProperty Name="SECOND_NAME" ColumnName="SECOND_NAME" />
+          <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+          <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
+          <ScalarProperty Name="DATE_OF_BIRTH" ColumnName="DATE_OF_BIRTH" />
+          <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -227,7 +231,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

@@ -24,6 +24,6 @@ namespace GameStats.Models
         public string DESCRIPTION { get; set; }
         [Display(Name = "Category")]
         public string CATEGORY { get; set; }
-        public int CATEGORY_ID { get; set; }
+        public string CATEGORY_ID { get; set; }
     }
 }

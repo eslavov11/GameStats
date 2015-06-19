@@ -12,18 +12,18 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ID)
+            #
         </th>
         <th>
             @Html.DisplayNameFor(model => model.NAME)
         </th>
         <th></th>
     </tr>
-
+    @{int i = 1;}
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ID)
+            @Html.Raw(i)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NAME)
@@ -34,6 +34,7 @@
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
+    { i++; }
 }
 
 </table>

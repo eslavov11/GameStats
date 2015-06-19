@@ -37,8 +37,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CATEGORY_ID, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CATEGORY_ID", (SelectList)ViewBag.CATEGORY, "--Select Category--")
-                @Html.ValidationMessageFor(model => model.CATEGORY_ID)
+                @{int i = 0;}
+                @foreach (var item in ViewBag.CATEGORY)
+                {
+                    <br>
+                    <input type="checkbox" name="category" @ViewBag.isChecked[i] value="@item.ID">
+                    { i++; }
+                    @Html.Raw(item.NAME)
+                }
             </div>
         </div>
 
